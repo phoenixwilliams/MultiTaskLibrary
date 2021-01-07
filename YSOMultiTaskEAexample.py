@@ -12,7 +12,8 @@ if __name__ == "__main__":
 
 
     selection_params = {
-        "tournament_size":1
+        "tournament_size":1,
+        "fitness_name": "scalar_fitness"
     }
 
 
@@ -36,14 +37,14 @@ if __name__ == "__main__":
         "problems": problems,
         "bounds": bounds,
         "offspring_pop_size": 100,
-        "iterations": 100,
+        "iterations": 5000,
         "crossover": AlgorithmOperators.sbx,
         "crossover_params": crossover_params,
         "mutation": AlgorithmOperators.mutpoly,
         "mutation_params": mutation_params,
         "rmp": rmp,
         "penalty_constant":10e+100,
-        "selection":AlgorithmOperators.BinaryTournament,
+        "selection":AlgorithmOperators.Single_BinaryTournament,
         "selection_params":selection_params
     }
 

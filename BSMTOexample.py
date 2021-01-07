@@ -29,11 +29,16 @@ if __name__ == "__main__":
         "diffmut": 1
     }
 
+    selection_params = {
+        "tournament_size": 1,
+        "fitness_name": "fitness"
+    }
+
     design = {
         "problems": [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin],
         "K": 2,
         "dimensions": dimensions,
-        "N": 50,
+        "N": 100,
         "crossover": AlgorithmOperators.sbx,
         "crossover_params": crossover_params,
         "mutations": [AlgorithmOperators.mutpoly],
@@ -41,9 +46,11 @@ if __name__ == "__main__":
         "p3": 0.85,
         "bounds": [[-100, 100], [-50, 50]],
         "penalty": 0,
-        "iterations": 5000,
+        "iterations": 10000,
         "nk": 50,
         "p2":0.8,
+        "selection": AlgorithmOperators.Single_BinaryTournament,
+        "selection_params": selection_params
     }
 
 

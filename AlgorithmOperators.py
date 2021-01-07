@@ -2,23 +2,34 @@ import random
 from operator import attrgetter
 
 
-def BinaryTournament(population, tournament_size):
+def BinaryTournament(population, tournament_size, fitness_name):
     """
     Binary Tournament Selection
     :param population:
     :param tournament_size:
     :return:
     """
-    tournament_1 = [population[random.randint(0, len(population) - 1)] for i in range(tournament_size)]
-    tournament_2 = [population[random.randint(0, len(population) - 1)] for i in range(tournament_size)]
+    tournament_1 = [random.choice(population) for i in range(tournament_size)]
+    tournament_2 = [random.choice(population) for i in range(tournament_size)]
 
-    parent1 = min(tournament_1, key=attrgetter('scalar_fitness'))
-    parent2 = min(tournament_2, key=attrgetter('scalar_fitness'))
+    parent1 = min(tournament_1, key=attrgetter(fitness_name))
+    parent2 = min(tournament_2, key=attrgetter(fitness_name))
 
     return parent1, parent2
 
+def Single_BinaryTournament(population, tournament_size, fitness_name):
+    """
+    Binary Tournament Selection that returns a single solution
+    :param population:
+    :param tournament_size:
+    :return:
+    """
+    tournament_1 = [random.choice(population) for _ in range(tournament_size)]
+    parent1 = min(tournament_1, key=attrgetter(fitness_name))
 
-def mutGaussian(parent1geno, parent2geno, mean, sigma, pm, length):
+    return parent1
+
+def mutGaussian(parent1geno, parent2geno, sigma, pm, length):
     """
     :param parent1geno:
     :param parent2geno:

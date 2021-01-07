@@ -8,7 +8,7 @@ Email: pw384@exeter.ac.uk
 
 ## Library Outline:
 
-### This repositry is built and maintained as part of my PhD for educational purposes. The aim of this library is to implement algorithms that can be used easily by those without a high level of knowledge in this area and simply want to optimize functions. 
+### This repository is built and maintained as part of my PhD for educational purposes. The aim of this library is to implement algorithms that can be used easily by those without a high level of knowledge in this area and simply want to optimize functions. 
 
 <br>
 
@@ -29,6 +29,8 @@ I designed this package to be as flexible as possible, that is the implementatio
     - The algorithm takes 0.5 seconds for carry out 100 iterations of a 50-dimensinoal problem with a population of 100.
 
     - The algorithm returns population and if stated the average fitness of each task throughout the optimization process.
+
+    - Each iteration calls the objective function 'offspring_popu_size' times
     
 
 
@@ -43,3 +45,5 @@ I designed this package to be as flexible as possible, that is the implementatio
 
     - The implemented algorithm does not consist of the BFGS optimization algorithm (as included in the published paper). <br>
         Reason for this exclusion is that it would require an increased number function calls beyond what is detailed in the algorithm definition, this can be misleading.
+
+    - Each iteration calls the objective function 'nk' times

@@ -135,7 +135,8 @@ class MTEA:
                 avg_task_fitness[t].append(temp_tasks_fitness[t] / num_solutions[t])
 
 
-            parents = [self.design["selection"](population, **self.design["selection_params"]) for _ in range(offspring_pop_size)]
+            parents = [[self.design["selection"](population, **self.design["selection_params"]),self.design["selection"](population, **self.design["selection_params"])]
+                       for _ in range(offspring_pop_size)]
 
             for j in range(0, offspring_pop_size, 2):
                 offsprings[j], offsprings[j+1] = generate_child(parents[j][0], parents[j][1], self.design["crossover"],
