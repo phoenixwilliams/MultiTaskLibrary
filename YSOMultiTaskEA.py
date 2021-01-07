@@ -1,5 +1,6 @@
 import random
 from operator import attrgetter
+import AlgorithmOperators
 
 class MTsolution:
 
@@ -50,31 +51,6 @@ def initial_solution_population(dimension, size, K):
     return mtsolution_popualtion
 
 
-def map_back(genotype, bounds, dimension):
-
-    """
-    Function maps solution to original search space
-    :param genotype: solution decision variables
-    :param bounds: problem bounds
-    :param dimension: problem dimensions
-    :return: mapped back genotype
-    """
-
-    mb_geno = []
-    violation = 0
-    for x in genotype:
-        term = x * (bounds[1] - bounds[0]) + bounds[0]
-
-        if bounds[0] > term:
-            violation += abs(bounds[0] - term)
-        if bounds[1] < term:
-            violation += abs(bounds[1] - term)
-
-        mb_geno.append(term)
-
-    return mb_geno[0:dimension], violation
-
-
 def evaluate_population(population, problems, bounds, dimensions, penalty_constant):
     """
     Function evaluations a population for each task
@@ -91,7 +67,7 @@ def evaluate_population(population, problems, bounds, dimensions, penalty_consta
 
     for p in population:
         if p.fitness == None:
-            raw_geno, violation = map_back(p.genotype, bounds[p.skill_factor], dimensions[p.skill_factor])
+            raw_geno, violation = AlgorithmOperators.map_back(p.genotype, bounds[p.skill_factor], dimensions[p.skill_factor])
             fitness = problems[p.skill_factor](raw_geno) + violation*penalty_constant
             p.set_fitness(fitness)
 
@@ -138,9 +114,7 @@ class MTEA:
 
         avg_task_fitness = [[] for _ in range(self.design["K"])]
 
-
-
-        #initial population
+        # initial population
         population = initial_solution_population(max(self.design["dimensions"]), self.design["size"], self.design["K"])
         evaluate_population(population, self.design["problems"], self.design["bounds"],
                             self.design["dimensions"], self.design["penalty_constant"])

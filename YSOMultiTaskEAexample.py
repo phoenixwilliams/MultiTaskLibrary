@@ -7,8 +7,8 @@ import time
 if __name__ == "__main__":
     dimensions = [50, 50]
     rmp = 0.3
-    problems = [BenchmarkProblems.rastrigin, BenchmarkProblems.schwefel]
-    bounds = [[-50, 50], [-500, 500]]
+    problems = [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin]
+    bounds = [[-100, 100], [-50, 50]]
 
 
     selection_params = {
@@ -51,4 +51,18 @@ if __name__ == "__main__":
     start = time.time()
     final_population, process = mtea.optimize(True)
     print("time:", time.time() - start)
+
+    avg = [0,0]
+    num = [0,0]
+    for i in final_population:
+        avg[i.skill_factor]+=i.fitness
+        num[i.skill_factor]+=1
+
+    avg[0] = avg[0]/num[0]
+    avg[1] = avg[1]/num[1]
+
+    print(avg)
+
+
+
 
