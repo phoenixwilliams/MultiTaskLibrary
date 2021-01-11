@@ -35,7 +35,7 @@ if __name__ == "__main__":
     }
 
     design = {
-        "problems": [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin],
+        "problems": [BenchmarkProblems.rastrigin, BenchmarkProblems.schwefel],
         "K": 2,
         "dimensions": dimensions,
         "N": 100,
@@ -46,9 +46,9 @@ if __name__ == "__main__":
         "p3": 0.85,
         "bounds": [[-100, 100], [-50, 50]],
         "penalty": 0,
-        "iterations": 10000,
+        "function_evaluations": 100000,
         "nk": 50,
-        "p2":0.8,
+        "p2": 0.8,
         "selection": AlgorithmOperators.Single_BinaryTournament,
         "selection_params": selection_params
     }

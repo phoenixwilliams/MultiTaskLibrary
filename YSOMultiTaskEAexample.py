@@ -37,7 +37,7 @@ if __name__ == "__main__":
         "problems": problems,
         "bounds": bounds,
         "offspring_pop_size": 100,
-        "iterations": 5000,
+        "function_evaluations": 100000,
         "crossover": AlgorithmOperators.sbx,
         "crossover_params": crossover_params,
         "mutation": AlgorithmOperators.mutpoly,

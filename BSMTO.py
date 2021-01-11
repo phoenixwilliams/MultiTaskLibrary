@@ -25,14 +25,12 @@ class Cluster:
 
 
 def initial_clusters(ntasks, dimension, size):
-
     population: Cluster = [None] * ntasks
 
     for t in range(ntasks):
         cluster_population: MTSolution = [None] * size
         for i in range(size):
             cluster_population[i] = MTSolution([random.random() for _ in range(dimension)])
-
 
         population[t] = Cluster(cluster_population, t)
 
@@ -55,7 +53,7 @@ def evaluate_population(population, problems, bounds, dimensions, penalty):
 
 
 
-def IBS(population, p3, crossover, crossover_params, mutations, mutations_params, selection, selection_params):
+def IBS(population, p3, crossover, crossover_params, mutations, mutations_params):
     spi = random.choice(population)
     mut_choice = random.randint(0, len(mutations)-1)
 
@@ -68,7 +66,6 @@ def IBS(population, p3, crossover, crossover_params, mutations, mutations_params
         spi.offspring_population.extend([MTSolution(child1geno), MTSolution(child2geno)])
 
 
-
     else:
         p1geno, p2geno = random.choice(spi.population).genotype, random.choice(spi.population).genotype
 
@@ -78,11 +75,11 @@ def IBS(population, p3, crossover, crossover_params, mutations, mutations_params
         spi.offspring_population.extend([MTSolution(child1geno), MTSolution(child2geno)])
 
 
-def CBS(population, crossover,  crossover_params, mutations, mutations_params, selection, selection_params):
+def CBS(population, crossover,  crossover_params, mutations, mutations_params):
     mut_choice = random.randint(0, len(mutations)-1)
     sp1, sp2 = random.choice(population), random.choice(population)
     #p1geno, p2geno = random.choice(sp1.population).genotype, random.choice(sp2.population).genotype
-    p1geno, p2geno = selection(sp1.population, **selection_params).genotype, selection(sp2.population, **selection_params).genotype
+    p1geno, p2geno = random.choice(sp1.population).genotype, random.choice(sp2.population).genotype
 
     child1geno, child2geno = crossover(p1geno, p2geno, **crossover_params)
     child1geno, child2geno = mutations[mut_choice](child1geno, child2geno, **mutations_params[mut_choice])
@@ -97,8 +94,6 @@ class BSMTO:
         self.design = design
 
 
-
-
     def optimize(self, return_process):
 
         avg_task_fitness = [[] for _ in range(self.design["K"])]
@@ -107,28 +102,24 @@ class BSMTO:
         evaluate_population(population, self.design["problems"], self.design["bounds"],
                             self.design["dimensions"], self.design["penalty"])
 
-        for it in range(self.design["iterations"]):
+        c_it = 0
+        while c_it < self.design["function_evaluations"]:
             for nki in range(0, self.design["nk"], 2):
 
-
-                if random.random()<self.design["p2"]:
-
+                if random.random() < self.design["p2"]:
                     IBS(population, self.design["p3"], self.design["crossover"], self.design["crossover_params"],
-                            self.design["mutations"], self.design["mutations_params"],
-                            self.design["selection"], self.design["selection_params"])
+                            self.design["mutations"], self.design["mutations_params"])
 
                 else:
                     CBS(population, self.design["crossover"], self.design["crossover_params"],
-                            self.design["mutations"], self.design["mutations_params"],
-                            self.design["selection"], self.design["selection_params"])
+                            self.design["mutations"], self.design["mutations_params"])
 
+            c_it += self.design["nk"]
             evaluate_population(population, self.design["problems"], self.design["bounds"],
                                 self.design["dimensions"], self.design["penalty"])
 
-
             for c in population:
                 c.population = sorted(c.population, key=attrgetter('fitness'))[:self.design["N"]]
-
                 avg_task_fitness[c.task].append(sum(i.fitness for i in c.population) / len(c.population))
 
         if return_process:

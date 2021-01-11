@@ -121,7 +121,8 @@ class MTEA:
 
         offspring_pop_size = self.design["offspring_pop_size"]
         offsprings: MTsolution = [None] * offspring_pop_size
-        for i in range(self.design["iterations"]):
+        c_it = self.design["size"]
+        while c_it < self.design["function_evaluations"]:
 
             # store task average fitness
             temp_tasks_fitness = [0 for _ in range(self.design["K"])]
@@ -148,6 +149,7 @@ class MTEA:
             evaluate_population(population, self.design["problems"], self.design["bounds"],self.design["dimensions"],
                                 self.design["penalty_constant"])
             population = sorted(population, key=attrgetter('scalar_fitness'), reverse=True)[0:self.design["size"]]
+            c_it += self.design["offspring_pop_size"]
 
         # store task average fitness
         temp_tasks_fitness = [0 for _ in range(self.design["K"])]

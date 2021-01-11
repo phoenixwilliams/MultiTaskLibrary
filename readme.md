@@ -43,3 +43,19 @@ I designed this package to be as flexible as possible, that is the implementatio
         Reason for this exclusion is that it would require an increased number function calls beyond what is detailed in the algorithm definition, this can be misleading.
 
     - Each iteration calls the objective function 'nk' times
+
+
+### DEMOTO: Differential Evolutionary Multi-task Optimization. <br>
+#### Xiaolong Zheng, Yu Lei, A. K. Qin, Deyun Zhou, Jiao Shi and Maoguo Gong
+
+    - This algorithm is implemented within the DEMOTO.py file, an example of how to use the package for this algorithm <br>
+        can be seen in DEMOTOexample.py.
+
+    - This algorithm requires no external libraries
+
+    - The algorithm maine ntasks amount of populations, and evolves each population using a standard DE method with a <br>
+        probability of rmp of selecting the best performing solution from other task populations at mutant vectors within <br>
+        each task population. 
+
+    - Current implementation defines the F and CR values using a distribution, a standard value for both can be generated <br>  
+        by simply defining a function that returns its value, e.g. AlgorithmOperators.get_f.
