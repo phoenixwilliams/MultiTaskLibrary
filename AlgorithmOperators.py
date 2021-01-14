@@ -125,6 +125,12 @@ def map_back_and_clip(genotype, bounds, dimension):
 
     return mb_geno[:dimension]
 
+
+def rand_1(population):
+
+    return random.choice(population), random.choice(population), random.choice(population)
+
+
 def de_1(x1, x2, x3, F):
     """
     This function is a DE function that returns a mutant vector genotype using

@@ -23,7 +23,7 @@ if __name__ == "__main__":
         "N": 50,
         "problems": [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin],
         "bounds": [[-50, 50], [-500, 500]],
-        "penalty": 0,
+        "md_vectors": AlgorithmOperators.rand_1,
         "function_evaluations": 100000,
         "rmp": 0.5,
         "mutant_generator": AlgorithmOperators.de_1,

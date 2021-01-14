@@ -35,12 +35,12 @@ def initial_clusters(ntasks, dimension, size):
 
     return population
 
-def evaluate_solution(solution_geno, problem, bounds, dimension, penalty):
+def evaluate_solution(solution_geno, problem, bounds, dimension):
     raw_geno = AlgorithmOperators.map_back_and_clip(solution_geno, bounds, dimension)
-    return problem(solution_geno)
+    return problem(raw_geno)
 
 
-def evaluate_population(population, problems, bounds, dimensions, penalty):
+def evaluate_population(population, problems, bounds, dimensions):
 
     for ci in population:
         for p in ci.population:
@@ -60,7 +60,7 @@ class DEMTO:
     def optimize(self, return_process):
         population = initial_clusters(self.design["K"], max(self.design["dimensions"]), self.design["N"])
         evaluate_population(population, self.design["problems"], self.design["bounds"],
-                            self.design["dimensions"], self.design["penalty"])
+                            self.design["dimensions"])
         avg_task_fitness = [[] for _ in range(self.design["K"])]
 
         c_it = 0
@@ -72,8 +72,7 @@ class DEMTO:
                 fs = [self.design["compute_f"](**self.design["compute_f_params"]) for _ in range(self.design["N"])]
 
                 for tn in range(self.design["N"]):
-                    # rand/1 mutant generator
-                    x1, x2, x3 = random.choice(cj.population), random.choice(cj.population), random.choice(cj.population)
+                    x1, x2, x3 = self.design["md_vectors"](cj.population)
                     mutant_vectors[tn] = self.design["mutant_generator"](x1.genotype, x2.genotype, x3.genotype, fs[tn])
 
                 if random.random() < self.design["rmp"]:
@@ -88,7 +87,7 @@ class DEMTO:
                                                             crs[ti], self.design["bounds"][cj.task])
                     fitness = evaluate_solution(trial_vector, self.design["problems"][cj.task],
                                                 self.design["bounds"][cj.task],
-                                                self.design["dimensions"][cj.task], self.design["penalty"])
+                                                self.design["dimensions"][cj.task])
 
                     if fitness <= cj.population[ti].fitness:
                         cj.population[ti] = MTSolution(trial_vector)
