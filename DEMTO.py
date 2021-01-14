@@ -36,8 +36,8 @@ def initial_clusters(ntasks, dimension, size):
     return population
 
 def evaluate_solution(solution_geno, problem, bounds, dimension, penalty):
-    raw_geno, violation = AlgorithmOperators.map_back(solution_geno, bounds, dimension)
-    return problem(solution_geno) + violation*penalty
+    raw_geno = AlgorithmOperators.map_back_and_clip(solution_geno, bounds, dimension)
+    return problem(solution_geno)
 
 
 def evaluate_population(population, problems, bounds, dimensions, penalty):
@@ -45,8 +45,8 @@ def evaluate_population(population, problems, bounds, dimensions, penalty):
     for ci in population:
         for p in ci.population:
             if p.fitness is None:
-                raw_geno, violation = AlgorithmOperators.map_back(p.genotype, bounds[ci.task], dimensions[ci.task])
-                p.set_fitness(problems[ci.task](raw_geno)+violation*penalty)
+                raw_geno = AlgorithmOperators.map_back_and_clip(p.genotype, bounds[ci.task], dimensions[ci.task])
+                p.set_fitness(problems[ci.task](raw_geno))
 
         ci.set_center(min(ci.population, key=attrgetter('fitness')))
 
@@ -72,7 +72,9 @@ class DEMTO:
                 fs = [self.design["compute_f"](**self.design["compute_f_params"]) for _ in range(self.design["N"])]
 
                 for tn in range(self.design["N"]):
-                    mutant_vectors[tn] = self.design["mutant_generator"](cj.population, fs[tn], self.design["bounds"][cj.task])
+                    # rand/1 mutant generator
+                    x1, x2, x3 = random.choice(cj.population), random.choice(cj.population), random.choice(cj.population)
+                    mutant_vectors[tn] = self.design["mutant_generator"](x1.genotype, x2.genotype, x3.genotype, fs[tn])
 
                 if random.random() < self.design["rmp"]:
                     indices = random.sample(range(0, self.design["N"]), self.design["K"]-1)

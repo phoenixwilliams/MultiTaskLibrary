@@ -67,8 +67,8 @@ def evaluate_population(population, problems, bounds, dimensions, penalty_consta
 
     for p in population:
         if p.fitness == None:
-            raw_geno, violation = AlgorithmOperators.map_back(p.genotype, bounds[p.skill_factor], dimensions[p.skill_factor])
-            fitness = problems[p.skill_factor](raw_geno) + violation*penalty_constant
+            raw_geno = AlgorithmOperators.map_back_and_clip(p.genotype, bounds[p.skill_factor], dimensions[p.skill_factor])
+            fitness = problems[p.skill_factor](raw_geno)
             p.set_fitness(fitness)
 
 
@@ -136,8 +136,7 @@ class MTEA:
                 avg_task_fitness[t].append(temp_tasks_fitness[t] / num_solutions[t])
 
 
-            parents = [[self.design["selection"](population, **self.design["selection_params"]),self.design["selection"](population, **self.design["selection_params"])]
-                       for _ in range(offspring_pop_size)]
+            parents = [[self.design["selection"](population, **self.design["selection_params"]),self.design["selection"](population, **self.design["selection_params"])] for _ in range(offspring_pop_size)]
 
             for j in range(0, offspring_pop_size, 2):
                 offsprings[j], offsprings[j+1] = generate_child(parents[j][0], parents[j][1], self.design["crossover"],

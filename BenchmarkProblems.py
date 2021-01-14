@@ -9,7 +9,7 @@ def rosenbrock(x):
 
     sum1=0
     for i in range(len(x)-1):
-        sum1 += (100 * (x[i+1] - (x[i]**2))**2 + (x[i] - 1)**2)
+        sum1 += 100*((x[i+1] - (x[i]**2))**2 + (x[i] - 1)**2)
 
     return sum1
 
@@ -67,6 +67,6 @@ def schwefel(x):
 
     term1 = 0
     for xi in x:
-        term1 += xi * math.sin(abs(xi)**0.5)
+        term1 += xi * math.sin(math.sqrt(math.fabs(xi)))
 
-    return 418.9829 * len(x) - term1
+    return (418.9829 * len(x)) - term1

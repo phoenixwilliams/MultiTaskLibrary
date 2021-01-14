@@ -100,7 +100,7 @@ def sbx(parent1geno, parent2geno, pc, nc, length):
 
 
 
-def map_back(genotype, bounds, dimension):
+def map_back_and_clip(genotype, bounds, dimension):
 
     """
     Function maps solution to original search space
@@ -110,22 +110,22 @@ def map_back(genotype, bounds, dimension):
     :return: mapped back genotype
     """
 
-    mb_geno:float = [None]*dimension
-    violation = 0
+    mb_geno: float = [None]*dimension
     for x, i in zip(genotype[:dimension], range(dimension)):
         term = x * (bounds[1] - bounds[0]) + bounds[0]
 
+        if term > bounds[1]:
+            term = bounds[1]
 
-        #if bounds[0] > term:
-        #    violation += abs(bounds[0] - term)
-        #if bounds[1] < term:
-        #    violation += abs(bounds[1] - term)
+        elif term < bounds[0]:
+            term = bounds[0]
+
 
         mb_geno[i] = term
 
-    return mb_geno[:dimension], violation
+    return mb_geno[:dimension]
 
-def de_rand_1(population, F, bounds):
+def de_1(x1, x2, x3, F):
     """
     This function is a DE function that returns a mutant vector genotype using
     v = x1 + F * (x2 - x3) for x1, x2 and x3 to be randomly selected solution genotypes
@@ -134,42 +134,12 @@ def de_rand_1(population, F, bounds):
     :return: Mutant vector genotype, not MTSolution because different algorithms have
     different MTSolution objects, but all have a genotype property.
     """
-
-    x1, x2 , x3 = random.choice(population).genotype, random.choice(population).genotype,random.choice(population).genotype
-
     mutant_genotype: float = [None] * len(x1)
     for i in range(len(mutant_genotype)):
         mutant_genotype[i] = x1[i] + F * (x2[i] - x3[i])
-        if mutant_genotype[i] < bounds[0]:
-            mutant_genotype[i] = (bounds[0] + mutant_genotype[i]) / 2
-
-        if mutant_genotype[i] > bounds[1]:
-            mutant_genotype[i] = (bounds[1] + mutant_genotype[i]) / 2
-
     return mutant_genotype
 
 
-def de_best_1(population, F, bounds):
-    """
-    This function is a DE function that returns a mutant vector genotype using
-    v = x1 + F * (x2 - x3) for x1, x2 and x3 to be randomly selected solution genotypes
-    :param population: Population of MTSolutions, we can acces the genotype using a.genotype
-    with a being an MTSolution object.
-    :return: Mutant vector genotype, not MTSolution because different algorithms have
-    different MTSolution objects, but all have a genotype property.
-    """
-    x1, x2 , x3 = min(population, key=attrgetter('fitness')).genotype, random.choice(population).genotype,random.choice(population).genotype
-
-    mutant_genotype:float = [None] * len(x1)
-    for i in range(len(mutant_genotype)):
-        mutant_genotype[i] = x1[i] + F * (x2[i] - x3[i])
-        if mutant_genotype[i] < bounds[0]:
-            mutant_genotype[i] = (bounds[0] + mutant_genotype[i]) / 2
-
-        if mutant_genotype[i] > bounds[1]:
-            mutant_genotype[i] = (bounds[1] + mutant_genotype[i]) / 2
-
-    return mutant_genotype
 
 
 def de_binomial_crossover(parent1geno, mutantgeno, CR, bounds):
@@ -201,6 +171,14 @@ def compute_f(t, s):
 
 def get_f(f):
     return f
+
+
+def get_cr(cr):
+    return cr
+
+
+
+
 
 
 

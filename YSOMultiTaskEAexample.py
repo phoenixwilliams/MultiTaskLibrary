@@ -8,14 +8,13 @@ if __name__ == "__main__":
     dimensions = [50, 50]
     rmp = 0.3
     problems = [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin]
-    bounds = [[-100, 100], [-50, 50]]
+    bounds = [[-50,50], [-50, 50]]
 
 
     selection_params = {
         "tournament_size":1,
         "fitness_name": "scalar_fitness"
     }
-
 
     crossover_params = {
         "pc": 1.0,

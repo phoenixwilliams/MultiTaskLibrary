@@ -21,12 +21,12 @@ if __name__ == "__main__":
         "K": 2,
         "dimensions": dimensions,
         "N": 50,
-        "problems": [BenchmarkProblems.rastrigin, BenchmarkProblems.schwefel],
+        "problems": [BenchmarkProblems.griewank, BenchmarkProblems.rastrigin],
         "bounds": [[-50, 50], [-500, 500]],
         "penalty": 0,
         "function_evaluations": 100000,
         "rmp": 0.5,
-        "mutant_generator": AlgorithmOperators.de_rand_1,
+        "mutant_generator": AlgorithmOperators.de_1,
         "crossover": AlgorithmOperators.de_binomial_crossover,
         "compute_cr": AlgorithmOperators.compute_cr,
         "compute_cr_params": compute_cr_params,
@@ -48,8 +48,6 @@ if __name__ == "__main__":
         avgs[c] = avg
 
     print(avgs)
-    print(final_population[0].center.fitness, final_population[1].center.fitness)
-    print(final_population[1].center.genotype)
 
 
     plt.plot(process[0])

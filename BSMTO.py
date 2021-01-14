@@ -46,8 +46,8 @@ def evaluate_population(population, problems, bounds, dimensions, penalty):
 
         for p in ci.population:
             if p.fitness is None:
-                raw_geno, violation = AlgorithmOperators.map_back(p.genotype, bounds[ci.task], dimensions[ci.task])
-                p.set_fitness(problems[ci.task](raw_geno)+violation*penalty)
+                raw_geno = AlgorithmOperators.map_back_and_clip(p.genotype, bounds[ci.task], dimensions[ci.task])
+                p.set_fitness(problems[ci.task](raw_geno))
 
         ci.set_center(min(ci.population, key=attrgetter('fitness')))
 
