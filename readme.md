@@ -53,9 +53,21 @@ I designed this package to be as flexible as possible, that is the implementatio
 
     - This algorithm requires no external libraries
 
-    - The algorithm maine ntasks amount of populations, and evolves each population using a standard DE method with a <br>
+    - The algorithm maintains ntasks amount of populations, and evolves each population using a standard DE method with a <br>
         probability of rmp of selecting the best performing solution from other task populations at mutant vectors within <br>
         each task population. 
 
     - Current implementation defines the F and CR values using a distribution, a standard value for both can be generated <br>  
         by simply defining a function that returns its value, e.g. AlgorithmOperators.get_f.
+
+### MFEARR: Parting Ways and Reallocating Resources in Evolutionary Multitasking. <br>
+#### Yu-Wei Wen and Chuan-Kang Ting
+
+    -This algorithm is implemented within the MFEARR.py file, an exmaple of how to use the package for this algorithm <br>
+        can be seen in MFEARRexample.py
+
+    - This algroithm requires no external libraries
+
+    - This algorithm follows the exact procecudre as MFEA apart from a single feature. MFEARR keeps track of the number <br>
+        of inter-task offsprings that successfully make it to the next generation. If the average number of sucessful <br>
+        inter-task offsprings drop below a given value e then the rmp value is set to 0.

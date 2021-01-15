@@ -120,7 +120,6 @@ def map_back_and_clip(genotype, bounds, dimension):
         elif term < bounds[0]:
             term = bounds[0]
 
-
         mb_geno[i] = term
 
     return mb_geno[:dimension]
