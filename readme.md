@@ -1,4 +1,4 @@
-# Multi-Task Library
+# Multi-Task Evolutionary Optimization Library
 
 <br>
 Author: Phoenix Williams, Univeristy of Exeter <br>
